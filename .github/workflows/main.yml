@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  run-ngrok:
+    timeout-minutes: 294
+    runs-on: windows-2025
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Download and Run Batch Script
+        run: |
+          Invoke-WebRequest -Uri 'https://gist.githubusercontent.com/indasreqq/95896b9612df805f9ee27fda14550b6c/raw/run.bat' -OutFile run.bat
+          echo Running batch script...
+          .\run.bat ${{ secrets.NGROK_AUTH_TOKEN }}
+        shell: pwsh
